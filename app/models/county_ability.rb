@@ -3,7 +3,7 @@ class CountyAbility
 
   def initialize(user)
     user ||= Spree::User.new
-    unless user.has_spree_role? 'admin'
+    unless user.has_spree_role? "admin"
       can [:index, :read], Spree::County
     end
   end

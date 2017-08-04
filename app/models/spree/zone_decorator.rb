@@ -37,12 +37,12 @@ Spree::Zone.class_eval do
   # Returns the matching zone with the highest priority zone type (State, Country, Zone.)
   # Returns nil in the case of no matches.
   def self.match(address)
-    return unless address and matches = self.includes(:zone_members).
-      order('spree_zones.zone_members_count', 'spree_zones.created_at').
+    return unless address && (matches = self.includes(:zone_members).
+      order("spree_zones.zone_members_count", "spree_zones.created_at").
       where("(spree_zone_members.zoneable_type = 'Spree::Country' AND spree_zone_members.zoneable_id = ?) OR (spree_zone_members.zoneable_type = 'Spree::State' AND spree_zone_members.zoneable_id = ?) OR (spree_zone_members.zoneable_type = 'Spree::County' AND spree_zone_members.zoneable_id = ?)", address.country_id, address.state_id, address.county_id).
-      references(:zones)
+      references(:zones))
 
-    ['state', 'country', 'county'].each do |zone_kind|
+    ["state", "country", "county"].each do |zone_kind|
       if match = matches.detect { |zone| zone_kind == zone.kind }
         return match
       end
@@ -51,7 +51,7 @@ Spree::Zone.class_eval do
   end
 
   def county?
-    kind == 'county'
+    kind == "county"
   end
 
   def include?(address)
@@ -59,11 +59,11 @@ Spree::Zone.class_eval do
 
     members.any? do |zone_member|
       case zone_member.zoneable_type
-      when 'Spree::Country'
+      when "Spree::Country"
         zone_member.zoneable_id == address.country_id
-      when 'Spree::State'
+      when "Spree::State"
         zone_member.zoneable_id == address.state_id
-      when 'Spree::County'
+      when "Spree::County"
         zone_member.zoneable_id == address.county_id
       else
         false
@@ -72,7 +72,7 @@ Spree::Zone.class_eval do
   end
 
   def county_ids
-    if kind == 'county'
+    if kind == "county"
       members.pluck(:zoneable_id)
     else
       []
@@ -80,6 +80,6 @@ Spree::Zone.class_eval do
   end
 
   def county_ids=(ids)
-    set_zone_members(ids, 'Spree::County')
+    set_zone_members(ids, "Spree::County")
   end
 end
