@@ -2,7 +2,7 @@
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.name        = "spree_counties"
-  s.version     = "3.3.0.rc1"
+  s.version     = "3.4.0"
   s.summary     = 'Lets your users pick counties from states list in address\'s step'
   s.description = "Add county model to address"
   s.required_ruby_version = ">= 1.9.3"
@@ -17,8 +17,8 @@ Gem::Specification.new do |s|
   s.require_path = "lib"
   s.requirements << "none"
 
-  s.add_dependency("spree_core", "~> 3.3.0.rc1")
-  s.add_dependency("spree_backend", "~> 3.3.0.rc1")
+  spree_version = ">= 3.1.0", "< 4.0"
+  s.add_dependency "spree_core", spree_version
 
   s.add_development_dependency "capybara", "~> 2.4"
   s.add_development_dependency "coffee-rails"
@@ -35,4 +35,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "binding_of_caller"
   s.add_development_dependency "pry"
   s.add_development_dependency "spreadsheet"
+
+  s.add_development_dependency 'spree_backend', spree_version
+
 end
