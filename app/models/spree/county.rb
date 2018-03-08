@@ -1,4 +1,4 @@
-class Spree::County < ActiveRecord::Base
+class Spree::County < Spree::Base
   delegate_belongs_to :state, :country
   has_many :addresses, dependent: :nullify
   validates :name, presence: true
