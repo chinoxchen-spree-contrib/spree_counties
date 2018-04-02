@@ -1,7 +1,10 @@
 class Spree::County < Spree::Base
-  delegate_belongs_to :state, :country
+  belongs_to :state
   has_many :addresses, dependent: :nullify
   validates :name, presence: true
+  
+  delegate :country, to: :state
+  
   Spree::Ability.register_ability(CountyAbility)
 
   def <=>(other)
