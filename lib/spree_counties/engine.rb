@@ -13,6 +13,14 @@ module SpreeCounties
       Dir.glob(File.join(File.dirname(__FILE__), '../../app/**/*_decorator*.rb')) do |c|
         Rails.configuration.cache_classes ? require(c) : load(c)
       end
+
+      unless Spree::PermittedAttributes.address_attributes.include?(:county_id)
+        Spree::PermittedAttributes.address_attributes << :county_id
+      end
+
+      unless Spree::PermittedAttributes.address_attributes.include?(:county_name)
+        Spree::PermittedAttributes.address_attributes << :county_name
+      end
     end
 
     config.to_prepare &method(:activate).to_proc

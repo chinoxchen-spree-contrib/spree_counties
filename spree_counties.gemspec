@@ -7,35 +7,37 @@ Gem::Specification.new do |s|
   s.description = "Add county model to address"
   s.required_ruby_version = ">= 1.9.3"
 
-  s.author    = "Gonzalo Moreno"
+  s.authors    = ['Gonzalo Moreno', 'Alexander Flores']
   s.email     = "gmoreno@acid.cl"
-  s.homepage  = "http://www.acid.cl"
+  s.homepage  = "https://gitlab.k8s.acidlabs.io/spree-extensions/spree_counties"
   s.license   = "MIT"
 
-  s.files       = `git ls-files`.split("\n")
-  s.test_files  = `git ls-files -- {test,spec,features}/*`.split("\n")
-  s.require_path = "lib"
-  s.requirements << "none"
+  s.files       = `git ls-files`.split("\n").reject { |f| f.match(/^spec/) && !f.match(/^spec\/fixtures/) }
+  s.require_path = 'lib'
+  s.requirements << 'none'
 
-  spree_version = ">= 3.4.0", "< 4.0"
-  s.add_dependency "spree_core", spree_version
+  spree_version = '>= 3.2.0', '< 5.0'
+  s.add_dependency 'spree_core', spree_version
+  s.add_dependency 'spree_backend', spree_version
+  s.add_dependency 'spree_extension'
 
-  s.add_development_dependency "capybara", "~> 2.4"
-  s.add_development_dependency "coffee-rails"
-  s.add_development_dependency "database_cleaner"
-  s.add_development_dependency "factory_girl", "~> 4.4"
-  s.add_development_dependency "ffaker"
-  s.add_development_dependency "rspec-rails",  "~> 3.1"
-  s.add_development_dependency "sass-rails", "~> 5.0.4"
-  s.add_development_dependency "selenium-webdriver"
-  s.add_development_dependency "shoulda-matchers"
-  s.add_development_dependency "simplecov"
-  s.add_development_dependency "sqlite3"
-  s.add_development_dependency "better_errors"
-  s.add_development_dependency "binding_of_caller"
-  s.add_development_dependency "pry"
-  s.add_development_dependency "spreadsheet"
-
-  s.add_development_dependency 'spree_backend', spree_version
+  s.add_development_dependency 'appraisal'
+  s.add_development_dependency 'awesome_print'
+  s.add_development_dependency 'better_errors'
+  s.add_development_dependency 'binding_of_caller'
+  s.add_development_dependency 'capybara'
+  s.add_development_dependency 'capybara-screenshot'
+  s.add_development_dependency 'coffee-rails'
+  s.add_development_dependency 'database_cleaner'
+  s.add_development_dependency 'factory_bot'
+  s.add_development_dependency 'ffaker'
+  s.add_development_dependency 'mysql2'
+  s.add_development_dependency 'pg'
+  s.add_development_dependency 'pry-rails'
+  s.add_development_dependency 'rspec-rails'
+  s.add_development_dependency 'sass-rails'
+  s.add_development_dependency 'simplecov'
+  s.add_development_dependency 'sqlite3'
+  s.add_development_dependency 'webdrivers'
 
 end
