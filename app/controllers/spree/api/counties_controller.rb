@@ -1,13 +1,11 @@
 module Spree
   module Api
     class CountiesController < Spree::Api::BaseController
-      skip_before_filter :set_expiry
-      skip_before_filter :check_for_user_or_api_key
-      skip_before_filter :authenticate_user
+      skip_before_action :authenticate_user
 
       def index
         @counties = scope.ransack(params[:q]).result.
-                    includes(:state).order('name ASC')
+                    includes(:state).order("name ASC")
 
         if params[:page] || params[:per_page]
           @counties = @counties.page(params[:page]).per(params[:per_page])

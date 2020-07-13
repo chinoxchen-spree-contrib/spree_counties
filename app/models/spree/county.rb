@@ -11,4 +11,8 @@ class Spree::County < ActiveRecord::Base
   def to_s
     name
   end
+
+  def country
+    state.country
+  end
 end
