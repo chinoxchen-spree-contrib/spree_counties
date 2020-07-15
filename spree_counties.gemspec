@@ -2,14 +2,14 @@
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.name        = "spree_counties"
-  s.version     = "3.4.0"
+  s.version     = "4.1.0"
   s.summary     = 'Lets your users pick counties from states list in address\'s step'
   s.description = "Add county model to address"
   s.required_ruby_version = ">= 1.9.3"
 
-  s.authors    = ['Gonzalo Moreno', 'Alexander Flores']
-  s.email     = "gmoreno@acid.cl"
-  s.homepage  = "https://gitlab.k8s.acidlabs.io/spree-extensions/spree_counties"
+  s.authors    = ['chinoxchen-spree-contrib']
+  s.email     = "chienfu.udp@gmail.com"
+  s.homepage  = "https://github.com/chinoxchen-spree-contrib/spree_counties"
   s.license   = "MIT"
 
   s.files       = `git ls-files`.split("\n").reject { |f| f.match(/^spec/) && !f.match(/^spec\/fixtures/) }
