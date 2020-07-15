@@ -8,8 +8,21 @@ module SpreeCounties
       base.validate :county_validate
     end
 
+    ADDRESS_FIELDS_CUSTOM = %w(company firstname lastname phone country state city county address1 address2)
+
     def require_county?
-      false
+      true
+    end
+
+    def to_s
+      [
+        full_name,
+        company,
+        address1,
+        address2,
+        "#{city}, #{state_text} #{county_name}",
+        country.to_s
+      ].reject(&:blank?).map { |attribute| ERB::Util.html_escape(attribute) }.join('<br/>')
     end
 
     private

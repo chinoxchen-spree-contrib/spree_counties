@@ -4,6 +4,8 @@
 es:
   activerecord:
     attributes:
+      spree/address:
+        county: Comuna
       spree/county:
         name: Nombre
     models:
@@ -15,3 +17,4 @@ es:
     county: "Comuna"
     new_county: "Nueva comuna"
     county_based: "Basado en Comuna"
+    state: "Región"

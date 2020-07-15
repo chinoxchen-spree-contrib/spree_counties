@@ -5,7 +5,18 @@ module SpreeCounties
     end
 
     def self.potential_matching_zones(zone)
-      if zone.country?
+      if zone.county?
+        # Match zones of the same kind with similar counties in AND match zones
+        # that have the countries states in
+        joins(:zone_members).where(
+          "(spree_zone_members.zoneable_type = 'Spree::County' AND
+            spree_zone_members.zoneable_id IN (?))
+          OR (spree_zone_members.zoneable_type = 'Spree::State' AND
+            spree_zone_members.zoneable_id IN (?))",
+          zone.county_ids,
+          zone.counties.pluck(:state_id)
+        ).uniq
+      elsif zone.country?
         # Match zones of the same kind with simialr countries
         joins(countries: :zones).
           where("zone_members_spree_countries_join.zone_id = ?", zone.id).
@@ -21,19 +32,6 @@ module SpreeCounties
           zone.state_ids,
           zone.states.pluck(:country_id)
         ).uniq
-      else
-        # Match zones of the same kind with similar counties in AND match zones
-        # that have the countries states in
-        joins(:zone_members).where(
-          "(spree_zone_members.zoneable_type = 'Spree::County' AND
-            spree_zone_members.zoneable_id IN (?))
-          OR (spree_zone_members.zoneable_type = 'Spree::State' AND
-            spree_zone_members.zoneable_id IN (?))",
-          zone.county_ids,
-          zone.counties.pluck(:state_id)
-        ).uniq
-
-        # ToDo - Counties->States->Countries
       end
     end
 
@@ -45,7 +43,7 @@ module SpreeCounties
         where("(spree_zone_members.zoneable_type = 'Spree::Country' AND spree_zone_members.zoneable_id = ?) OR (spree_zone_members.zoneable_type = 'Spree::State' AND spree_zone_members.zoneable_id = ?) OR (spree_zone_members.zoneable_type = 'Spree::County' AND spree_zone_members.zoneable_id = ?)", address.country_id, address.state_id, address.county_id).
         references(:zones))
 
-      ["state", "country", "county"].each do |zone_kind|
+      ['state', 'country', 'county'].each do |zone_kind|
         if match = matches.detect { |zone| zone_kind == zone.kind }
           return match
         end
@@ -54,7 +52,7 @@ module SpreeCounties
     end
 
     def county?
-      kind == "county"
+      kind == 'county'
     end
 
     def include?(address)
@@ -62,11 +60,11 @@ module SpreeCounties
 
       members.any? do |zone_member|
         case zone_member.zoneable_type
-        when "Spree::Country"
+        when 'Spree::Country'
           zone_member.zoneable_id == address.country_id
-        when "Spree::State"
+        when 'Spree::State'
           zone_member.zoneable_id == address.state_id
-        when "Spree::County"
+        when 'Spree::County'
           zone_member.zoneable_id == address.county_id
         else
           false
@@ -75,7 +73,7 @@ module SpreeCounties
     end
 
     def county_ids
-      if kind == "county"
+      if kind == 'county'
         members.pluck(:zoneable_id)
       else
         []
@@ -83,7 +81,7 @@ module SpreeCounties
     end
 
     def county_ids=(ids)
-      set_zone_members(ids, "Spree::County")
+      set_zone_members(ids, 'Spree::County')
     end
 
     Spree::Zone.prepend(self)

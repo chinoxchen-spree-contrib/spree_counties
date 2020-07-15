@@ -21,6 +21,10 @@ module SpreeCounties
       unless Spree::PermittedAttributes.address_attributes.include?(:county_name)
         Spree::PermittedAttributes.address_attributes << :county_name
       end
+
+      Spree::CheckoutController.class_eval do
+        helper Spree::AddressesHelper
+      end
     end
 
     config.to_prepare &method(:activate).to_proc
