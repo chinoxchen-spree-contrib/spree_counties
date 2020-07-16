@@ -1,15 +1,11 @@
 Spree.ready(function ($) {
-  console.log("Spree.ready")
+  Spree.CheckoutCounties = {};
   Spree.onAddress = function () {
     if ($('#checkout_form_address').length) {
 
       Spree.updateState = function (region) {
-        console.log('Spree.updateState');
-        console.log(region);
         var countryId = getCountryId(region);
-        console.log(countryId)
         if (countryId != null) {
-          console.log(Spree.Checkout[countryId])
           if (Spree.Checkout[countryId] == null) {
             $.ajax({
               async: false, method: 'GET', url: Spree.pathFor('/api/v2/storefront/countries/' + countryId + '?include=states'), dataType: 'json'
@@ -36,21 +32,20 @@ Spree.ready(function ($) {
       };
 
       Spree.updateCounty = function(region) {
-        console.log('Spree.updateCounty');
         var stateId = getStateId(region);
         if (stateId != null) {
-          if (Spree.Checkout[stateId] == null) {
+          if (Spree.CheckoutCounties[stateId] == null) {
             return $.get('/api/counties', {
               state_id: stateId
             }, function(data) {
-              Spree.Checkout[stateId] = {
+              Spree.CheckoutCounties[stateId] = {
                 counties: data.counties,
                 counties_required: false
               };
-              return Spree.fillCounties(Spree.Checkout[stateId], region);
+              return Spree.fillCounties(Spree.CheckoutCounties[stateId], region);
             });
           } else {
-            return Spree.fillCounties(Spree.Checkout[stateId], region);
+            return Spree.fillCounties(Spree.CheckoutCounties[stateId], region);
           }
         }
       };
@@ -78,8 +73,6 @@ Spree.ready(function ($) {
       }
 
       Spree.fillStates = function (data, region) {
-        console.log('Spree.fillStates')
-
         var selected;
         var statesRequired = data.states_required;
         var states = data.states;
@@ -138,7 +131,6 @@ Spree.ready(function ($) {
       };
 
       Spree.fillCounties = function(data, region) {
-        console.log('Spree.fillCounties')
         var counties, countiesRequired, countyInput, countyPara, countySelect, countySpanRequired, countyWithBlank, selected;
         countiesRequired = data.counties_required;
         counties = data.counties;
