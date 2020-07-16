@@ -1,7 +1,4 @@
 <% address_id = address_type.chars.first %>
-<% address_form.object.country = Spree::Country.find_by(iso_name: 'CHILE') %>
-<% address_form.object.city = 'Santiago' %>
-<% address_form.object.state = Spree::State.find_by(abbr: 'RM') %>
 
 <% Spree::Address::ADDRESS_FIELDS_CUSTOM.each do |field| %>
   <% if field == "country" %>
