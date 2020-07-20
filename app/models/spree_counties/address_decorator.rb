@@ -14,17 +14,6 @@ module SpreeCounties
       true
     end
 
-    def to_s
-      [
-        full_name,
-        company,
-        address1,
-        address2,
-        "#{city}, #{state_text} #{county_name}",
-        country.to_s
-      ].reject(&:blank?).map { |attribute| ERB::Util.html_escape(attribute) }.join('<br/>')
-    end
-
     private
 
     def county_validate
