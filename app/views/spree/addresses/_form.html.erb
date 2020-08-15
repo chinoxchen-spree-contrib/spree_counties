@@ -1,6 +1,6 @@
 <% address_id = address_type.chars.first %>
 
-<% Spree::Address::ADDRESS_FIELDS_CUSTOM.each do |field| %>
+<% Spree::Address::ADDRESS_FIELDS.each do |field| %>
   <% if field == "country" %>
     <div class="form-group mb-4">
       <%= address_field(address_form, field.to_sym, address_id) { address_country(address_form, address_id) } %>
