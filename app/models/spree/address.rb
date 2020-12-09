@@ -12,7 +12,8 @@ module Spree
 
     # we're not freezing this on purpose so developers can extend and manage
     # those attributes depending of the logic of their applications
-    ADDRESS_FIELDS = %w(company firstname lastname phone country state city county address1 address2)
+    ADDRESS_FIELDS =
+      %w(company firstname lastname phone country state city county note address1 address2)
     EXCLUDED_KEYS_FOR_COMPARISION = %w(id updated_at created_at deleted_at)
 
     belongs_to :country, class_name: 'Spree::Country'
@@ -113,7 +114,8 @@ module Spree
         state: state_text,
         zip: zipcode,
         country: country.try(:iso),
-        phone: phone
+        phone: phone,
+        note: note
       }
     end
 
