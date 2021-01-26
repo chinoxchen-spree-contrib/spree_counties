@@ -26,6 +26,10 @@ module SpreeCounties
         Spree::PermittedAttributes.address_attributes << :note
       end
 
+      unless Spree::PermittedAttributes.shipment_attributes.include?(:actual_cost)
+        Spree::PermittedAttributes.shipment_attributes << :actual_cost
+      end
+
       unless Spree::PermittedAttributes.shipment_attributes.include?(:note)
         Spree::PermittedAttributes.shipment_attributes << :note
       end
