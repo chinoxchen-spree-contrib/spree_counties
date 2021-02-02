@@ -34,6 +34,10 @@ module SpreeCounties
         Spree::PermittedAttributes.shipment_attributes << :note
       end
 
+      unless Spree::PermittedAttributes.stock_location_attributes.include?(:county_id)
+        Spree::PermittedAttributes.stock_location_attributes << :county_id
+      end
+
       Spree::CheckoutController.class_eval do
         helper Spree::AddressesHelper
       end

@@ -1,6 +1,7 @@
 class Spree::County < ActiveRecord::Base
   belongs_to :state
   has_many :addresses, dependent: :nullify
+  has_many :stock_locations, dependent: :nullify
   validates :name, presence: true
 
   delegate :country, to: :state
