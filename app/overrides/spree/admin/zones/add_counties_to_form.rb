@@ -9,8 +9,3 @@ Deface::Override.new virtual_path:  "spree/admin/zones/_form",
                      original:      "0335a2f98719d4d9c034bbda6d42b2d9f9a68e4c",
                      insert_bottom: '[data-hook="type"]',
                      partial:       "spree/admin/zones/county_option"
-
-Deface::Override.new virtual_path:  "spree/admin/stock_locations/_form",
-                     name:          "add_counties_form",
-                     insert_after: '[data-hook="stock_location_state"]',
-                     partial:       "spree/admin/stock_locations/county"

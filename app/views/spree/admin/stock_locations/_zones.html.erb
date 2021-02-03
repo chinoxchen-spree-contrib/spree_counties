@@ -1,0 +1,6 @@
+<div data-hook="stock_location_zones">
+  <%= f.field_container :zone_ids, class: ['form-group'] do %>
+  <%= f.label :stock_locations_zone_ids, Spree.t(:zones) %>
+  <%= f.collection_select :zone_ids, @zones, :id, :name, {}, { multiple: true, class: "select2" } %>
+  <% end %>
+</div>
