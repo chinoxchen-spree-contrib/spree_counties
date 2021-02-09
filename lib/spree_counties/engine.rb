@@ -34,6 +34,10 @@ module SpreeCounties
         Spree::PermittedAttributes.shipment_attributes << :note
       end
 
+      unless Spree::PermittedAttributes.shipment_attributes.include?(:lead_time)
+        Spree::PermittedAttributes.shipment_attributes << :lead_time
+      end
+
       Spree::CheckoutController.class_eval do
         helper Spree::AddressesHelper
       end
