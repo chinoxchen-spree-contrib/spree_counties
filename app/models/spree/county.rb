@@ -8,6 +8,8 @@ class Spree::County < ActiveRecord::Base
 
   Spree::Ability.register_ability(CountyAbility)
 
+  scope :by_name, -> (county_name) { where( 'lower(name) = ?',  county_name.downcase) }
+
   def <=>(other)
     name <=> other.name
   end
