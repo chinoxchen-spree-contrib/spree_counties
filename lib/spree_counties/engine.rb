@@ -34,6 +34,10 @@ module SpreeCounties
         Spree::PermittedAttributes.shipment_attributes << :note
       end
 
+      unless Spree::PermittedAttributes.shipment_attributes.include?(:lead_time)
+        Spree::PermittedAttributes.shipment_attributes << :lead_time
+      end
+
       unless Spree::PermittedAttributes.stock_location_attributes.include?(:county_id)
         Spree::PermittedAttributes.stock_location_attributes << :county_id
       end
