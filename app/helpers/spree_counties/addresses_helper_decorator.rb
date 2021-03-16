@@ -79,7 +79,7 @@ module SpreeCounties
     end
 
     def available_cities
-      options_for_select(['Santiago'])
+      options_for_select(Spree::Address::CITIES)
     end
 
     Spree::AddressesHelper.prepend(self)

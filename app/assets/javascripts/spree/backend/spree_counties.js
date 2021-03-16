@@ -48,6 +48,7 @@ var update_county = function (region, done) {
 // Fix precompile spree/backend/zone override. https://groups.google.com/forum/#!topic/spree-user/RyWmAWevTyk
 $(document).ready(function(){
   if ($('#county_based').parent().parent().data('selected')) {
+    alert('ahaha')
     $('#county_based').click();
   };
 });
