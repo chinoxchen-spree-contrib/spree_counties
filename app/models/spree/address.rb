@@ -23,6 +23,7 @@ module Spree
     belongs_to :county, class_name: 'Spree::County'
 
     has_many :shipments, inverse_of: :address
+    has_many :orders, class_name: 'Spree::Order', inverse_of: :address
 
     before_validation :clear_invalid_state_entities, if: -> { country.present? }, on: :update
 
