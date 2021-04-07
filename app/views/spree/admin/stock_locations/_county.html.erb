@@ -1,0 +1,6 @@
+<div data-hook="stock_location_county">
+  <%= f.field_container :county_id, class: ['form-group'] do %>
+    <%= f.label :county_id, Spree.t(:county) %>
+    <%= f.collection_select :county_id, @counties, :id, :name, {include_blank: true}, { class: "select2" } %>
+  <% end %>
+</div>

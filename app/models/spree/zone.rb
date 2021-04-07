@@ -9,6 +9,8 @@ module Spree
       has_many :states, source_type: 'Spree::State'
     end
 
+    has_and_belongs_to_many :stock_locations
+
     has_many :shipping_method_zones, class_name: 'Spree::ShippingMethodZone'
     has_many :shipping_methods, through: :shipping_method_zones, class_name: 'Spree::ShippingMethod'
 

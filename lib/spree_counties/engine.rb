@@ -22,6 +22,26 @@ module SpreeCounties
         Spree::PermittedAttributes.address_attributes << :county_name
       end
 
+      unless Spree::PermittedAttributes.address_attributes.include?(:note)
+        Spree::PermittedAttributes.address_attributes << :note
+      end
+
+      unless Spree::PermittedAttributes.shipment_attributes.include?(:actual_cost)
+        Spree::PermittedAttributes.shipment_attributes << :actual_cost
+      end
+
+      unless Spree::PermittedAttributes.shipment_attributes.include?(:note)
+        Spree::PermittedAttributes.shipment_attributes << :note
+      end
+
+      unless Spree::PermittedAttributes.shipment_attributes.include?(:lead_time)
+        Spree::PermittedAttributes.shipment_attributes << :lead_time
+      end
+
+      unless Spree::PermittedAttributes.stock_location_attributes.include?(:county_id)
+        Spree::PermittedAttributes.stock_location_attributes << :county_id
+      end
+
       Spree::CheckoutController.class_eval do
         helper Spree::AddressesHelper
       end
