@@ -43,7 +43,7 @@ module SpreeCounties
       end
 
       unless Spree::PermittedAttributes.user_attributes.include?(:county_ids)
-        Spree::PermittedAttributes.user_attributes << :county_ids
+        Spree::PermittedAttributes.user_attributes << {county_ids: []}
       end
 
       Spree::CheckoutController.class_eval do
