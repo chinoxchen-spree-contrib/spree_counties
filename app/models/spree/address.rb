@@ -14,7 +14,7 @@ module Spree
     # those attributes depending of the logic of their applications
     ADDRESS_FIELDS =
       %w(company firstname lastname phone country state city county note address1 address2 global)
-    EXCLUDED_KEYS_FOR_COMPARISION = %w(id updated_at created_at deleted_at user_id global)
+    EXCLUDED_KEYS_FOR_COMPARISION = %w(id updated_at created_at deleted_at user_id)
     CITIES = %w(Santiago)
 
     belongs_to :country, class_name: 'Spree::Country'
