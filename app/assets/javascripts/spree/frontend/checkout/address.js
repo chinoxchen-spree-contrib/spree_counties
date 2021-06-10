@@ -35,7 +35,7 @@ Spree.ready(function ($) {
         var stateId = getStateId(region);
         if (stateId != null) {
           if (Spree.CheckoutCounties[stateId] == null) {
-            return $.get('/api/counties', {
+            return $.get('/api/v1/counties', {
               state_id: stateId
             }, function(data) {
               Spree.CheckoutCounties[stateId] = {
