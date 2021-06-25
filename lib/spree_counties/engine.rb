@@ -42,8 +42,8 @@ module SpreeCounties
         Spree::PermittedAttributes.stock_location_attributes << :county_id
       end
 
-      unless Spree::PermittedAttributes.user_attributes.include?(:county_ids)
-        Spree::PermittedAttributes.user_attributes << {county_ids: []}
+      unless Spree::PermittedAttributes.user_attributes.include?(:stock_location_ids)
+        Spree::PermittedAttributes.user_attributes << {stock_location_ids: []}
       end
 
       Spree::CheckoutController.class_eval do
