@@ -7,6 +7,7 @@ module Spree
     with_options through: :zone_members, source: :zoneable do
       has_many :countries, source_type: 'Spree::Country'
       has_many :states, source_type: 'Spree::State'
+      has_many :counties, source_type: 'Spree::County'
     end
 
     has_and_belongs_to_many :stock_locations
