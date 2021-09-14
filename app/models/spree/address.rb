@@ -19,7 +19,7 @@ module Spree
     ADDRESS_FIELDS =
       %w(company firstname lastname phone country state city county note address1 address2 global)
     EXCLUDED_KEYS_FOR_COMPARISION = %w(id updated_at created_at deleted_at user_id global label)
-    CITIES = %w(Santiago)
+    CITIES = ['Santiago', 'Viña del Mar']
 
     scope :not_deleted, -> { where(deleted_at: nil) }
 
