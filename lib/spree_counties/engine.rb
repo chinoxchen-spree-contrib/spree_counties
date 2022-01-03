@@ -26,10 +26,6 @@ module SpreeCounties
         Spree::PermittedAttributes.address_attributes << :note
       end
 
-      unless Spree::PermittedAttributes.address_attributes.include?(:info_note)
-        Spree::PermittedAttributes.address_attributes << :info_note
-      end
-
       unless Spree::PermittedAttributes.shipment_attributes.include?(:actual_cost)
         Spree::PermittedAttributes.shipment_attributes << :actual_cost
       end
@@ -48,6 +44,10 @@ module SpreeCounties
 
       unless Spree::PermittedAttributes.user_attributes.include?(:county_ids)
         Spree::PermittedAttributes.user_attributes << {county_ids: []}
+      end
+
+      unless Spree::PermittedAttributes.address_attributes.include?(:info_note)
+        Spree::PermittedAttributes.address_attributes << :info_note
       end
 
       Spree::CheckoutController.class_eval do
