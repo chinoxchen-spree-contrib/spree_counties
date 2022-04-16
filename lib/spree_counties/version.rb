@@ -1,3 +1,3 @@
 module SpreeCounties
-  VERSION = "4.3.13"
+  VERSION = "4.3.14"
 end

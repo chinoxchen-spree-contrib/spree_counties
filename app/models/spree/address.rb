@@ -244,26 +244,17 @@ module Spree
       return if !require_county?
 
       # ensure associated county belongs to state
-      if county.present?
-        if county.state == state
-          self.county_name = nil #not required as we have a valid county and state combo
-        else
-          if county_name.present?
-            self.county = nil
-          else
-            errors.add(:county, :invalid)
-          end
-        end
+      if county.present? && county.state != state
+        errors.add(:county, :invalid)
       end
 
       # ensure county_name belongs to state without counties, or that it matches a predefined state name
       if county_name.present?
         if state.counties.present?
-          counties = state.counties.find_all_by_name(county_name)
+          counties = state.counties.by_name(county_name)
 
           if counties.size == 1
             self.county = counties.first
-            self.county_name = nil
           else
             errors.add(:state, :invalid)
           end
@@ -271,7 +262,7 @@ module Spree
       end
 
       # ensure at least one county field is populated
-      errors.add :county, :blank if county.blank? && county_name.blank?
+      errors.add :county, :blank if county.blank?
     end
 
     # ensure associated state belongs to country
