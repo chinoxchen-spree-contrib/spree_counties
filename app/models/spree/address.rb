@@ -16,7 +16,7 @@ module Spree
 
     # we're not freezing this on purpose so developers can extend and manage
     # those attributes depending of the logic of their applications
-    ADDRESS_FIELDS =      
+    ADDRESS_FIELDS =
       %w(company firstname lastname phone country state city county note address1 address2 global info_note)
     EXCLUDED_KEYS_FOR_COMPARISION = %w(id updated_at created_at deleted_at user_id global label)
     CITIES = ['Santiago', 'Viña del Mar', 'Valparaíso', 'Rancagua']
@@ -26,7 +26,7 @@ module Spree
     belongs_to :country, class_name: 'Spree::Country'
     belongs_to :state, class_name: 'Spree::State', optional: true
     belongs_to :user, class_name: Spree.user_class.name, optional: true
-    belongs_to :county, class_name: 'Spree::County'
+    belongs_to :county, -> { with_deleted }, class_name: 'Spree::County'
 
     has_many :shipments, inverse_of: :address
     has_many :orders, class_name: 'Spree::Order', inverse_of: :address

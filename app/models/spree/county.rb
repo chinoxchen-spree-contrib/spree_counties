@@ -1,7 +1,9 @@
 class Spree::County < ActiveRecord::Base
+  acts_as_paranoid
+
   belongs_to :state
-  has_many :addresses, dependent: :nullify
-  has_many :stock_locations, dependent: :nullify
+  has_many :addresses
+  has_many :stock_locations
   has_and_belongs_to_many :users
 
   validates :name, presence: true
