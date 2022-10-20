@@ -47,5 +47,18 @@ bower.json
 # Ignore node_modules
 node_modules/
 spec/dummy
+\#*
+*~
+.#*
+.history
+.DS_Store
+.idea
+.project
+.sass-cache
+coverage
 Gemfile.lock
-gemfiles/*.gemfile.lock
+tmp
+nbproject
+pkg
+*.swp
+spec/dummy

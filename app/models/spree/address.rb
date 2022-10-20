@@ -2,6 +2,10 @@ module Spree
   class Address < Spree::Base
     require 'twitter_cldr'
 
+    if Rails::VERSION::STRING >= '6.1'
+      serialize :preferences, Hash, default: {}
+    end
+
     NO_ZIPCODE_ISO_CODES ||= [
       'AO', 'AG', 'AW', 'BS', 'BZ', 'BJ', 'BM', 'BO', 'BW', 'BF', 'BI', 'CM', 'CF', 'KM', 'CG',
       'CD', 'CK', 'CUW', 'CI', 'DJ', 'DM', 'GQ', 'ER', 'FJ', 'TF', 'GAB', 'GM', 'GH', 'GD', 'GN',
@@ -13,14 +17,16 @@ module Spree
     # we're not freezing this on purpose so developers can extend and manage
     # those attributes depending of the logic of their applications
     ADDRESS_FIELDS =
-      %w(company firstname lastname phone country state city county note info_note address1 address2 global)
-    EXCLUDED_KEYS_FOR_COMPARISION = %w(id updated_at created_at deleted_at user_id global)
-    CITIES = %w(Santiago)
+      %w(company firstname lastname phone country state city county note address1 address2 global info_note)
+    EXCLUDED_KEYS_FOR_COMPARISION = %w(id updated_at created_at deleted_at user_id global label)
+    CITIES = ['Santiago', 'Viña del Mar', 'Valparaíso', 'Rancagua']
+
+    scope :not_deleted, -> { where(deleted_at: nil) }
 
     belongs_to :country, class_name: 'Spree::Country'
     belongs_to :state, class_name: 'Spree::State', optional: true
     belongs_to :user, class_name: Spree.user_class.name, optional: true
-    belongs_to :county, class_name: 'Spree::County'
+    belongs_to :county, -> { with_deleted }, class_name: 'Spree::County'
 
     has_many :shipments, inverse_of: :address
     has_many :orders, class_name: 'Spree::Order', inverse_of: :address
@@ -39,13 +45,20 @@ module Spree
     validate :state_validate, :postal_code_validate
     validate :county_validate
 
+    validates :label, uniqueness: { conditions: -> { where(deleted_at: nil) },
+                                scope: :user_id,
+                                case_sensitive: false,
+                                allow_blank: true,
+                                allow_nil: true }
+
     delegate :name, :iso3, :iso, :iso_name, to: :country, prefix: true
     delegate :abbr, to: :state, prefix: true, allow_nil: true
 
     alias_attribute :first_name, :firstname
     alias_attribute :last_name, :lastname
 
-    self.whitelisted_ransackable_attributes = %w[firstname lastname company]
+    self.whitelisted_ransackable_attributes = ADDRESS_FIELDS
+    self.whitelisted_ransackable_associations = %w[country state user county]
 
     def self.build_default
       new(country: Spree::Country.default)
@@ -152,6 +165,7 @@ module Spree
         super
       else
         update_column :deleted_at, Time.current
+        assign_new_default_address_to_user
       end
     end
 
@@ -216,32 +230,31 @@ module Spree
       errors.add(:zipcode, :invalid) unless postal_code.valid?(zipcode.to_s.strip)
     end
 
+    def assign_new_default_address_to_user
+      return unless user
+
+      user.bill_address = user.addresses.last if user.bill_address == self
+      user.ship_address = user.addresses.last if user.ship_address == self
+      user.save!
+    end
+
     def county_validate
       # Skip state validation without state
       return if state.blank?
       return if !require_county?
 
       # ensure associated county belongs to state
-      if county.present?
-        if county.state == state
-          self.county_name = nil #not required as we have a valid county and state combo
-        else
-          if county_name.present?
-            self.county = nil
-          else
-            errors.add(:county, :invalid)
-          end
-        end
+      if county.present? && county.state != state
+        errors.add(:county, :invalid)
       end
 
       # ensure county_name belongs to state without counties, or that it matches a predefined state name
       if county_name.present?
         if state.counties.present?
-          counties = state.counties.find_all_by_name(county_name)
+          counties = state.counties.by_name(county_name)
 
           if counties.size == 1
             self.county = counties.first
-            self.county_name = nil
           else
             errors.add(:state, :invalid)
           end
@@ -249,7 +262,7 @@ module Spree
       end
 
       # ensure at least one county field is populated
-      errors.add :county, :blank if county.blank? && county_name.blank?
+      errors.add :county, :blank if county.blank?
     end
 
     # ensure associated state belongs to country

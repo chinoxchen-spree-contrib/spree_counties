@@ -50,6 +50,10 @@ module SpreeCounties
         Spree::PermittedAttributes.user_attributes << {stock_location_ids: []}
       end
 
+      unless Spree::PermittedAttributes.address_attributes.include?(:info_note)
+        Spree::PermittedAttributes.address_attributes << :info_note
+      end
+
       Spree::CheckoutController.class_eval do
         helper Spree::AddressesHelper
       end
