@@ -17,8 +17,8 @@ module Spree
     # we're not freezing this on purpose so developers can extend and manage
     # those attributes depending of the logic of their applications
     ADDRESS_FIELDS =
-      %w(company firstname lastname phone country state city county note address1 address2 global info_note)
-    EXCLUDED_KEYS_FOR_COMPARISION = %w(id updated_at created_at deleted_at user_id global label)
+      %w(company firstname lastname phone country state city county note address1 address2 global hide_in_frontend info_note)
+    EXCLUDED_KEYS_FOR_COMPARISION = %w(id updated_at created_at deleted_at user_id global label hide_in_frontend)
     CITIES = ['Santiago', 'Viña del Mar', 'Valparaíso', 'Rancagua', 'Los Angeles', 'Puerto Montt']
 
     scope :not_deleted, -> { where(deleted_at: nil) }
